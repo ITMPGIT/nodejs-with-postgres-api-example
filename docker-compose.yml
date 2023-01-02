@@ -6,9 +6,9 @@ services:
     ports:
       - 3000:3000
     environment:
-      POSTGRES_HOST: postgres:mysecretpassword@postgres:5432
+      POSTGRES_HOST: app:mysecretpassword@postgres:5432
       PORT: 3000
-      
+
     depends_on:
       - postgres
     links:
@@ -17,9 +17,15 @@ services:
   postgres:
     container_name: postgres
     restart: always
-    image: postgres
+    image: postgres:14
     ports:
       - 5432:5432
     environment:
+      POSTGRES_USER: app
       POSTGRES_PASSWORD: mysecretpassword
       POSTGRES_DB: heroes
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - data:/var/lib/postgresql/data
+volumes:
+        data:
